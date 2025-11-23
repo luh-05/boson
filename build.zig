@@ -19,6 +19,13 @@ pub fn build(b: *std.Build) !void {
     });
     exe_mod.addImport("bosonlib", lib_mod);
 
+    const script_mod = b.createModule(.{
+        .root_source_file = b.path("script/main.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    script_mod.addImport("bosonlib", lib_mod);
+
     // Add executable
     const exe = b.addExecutable(.{
         .name = "boson",
@@ -27,8 +34,15 @@ pub fn build(b: *std.Build) !void {
     // exe.linkLibrary(lib);
     exe.linkLibC();
 
+    const script = b.addExecutable(.{
+        .name = "script",
+        .root_module = script_mod,
+    });
+    script.linkLibC();
+
     // Install exe artifact
     b.installArtifact(exe);
+    b.installArtifact(script);
 
     const run_cmd = b.addRunArtifact(exe);
 

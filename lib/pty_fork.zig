@@ -7,7 +7,7 @@ pub fn ptyFork(alloc: std.mem.Allocator, master_fd: *i32, slave_name: ?*[]const 
 
     // Open pty
     var sl_name: []const u8 = "";
-    const mfd = ptyMasterOpen(alloc, &sl_name) catch |err| {
+    const mfd: i32 = ptyMasterOpen(alloc, &sl_name) catch |err| {
         return err;
     };
     defer alloc.free(sl_name);

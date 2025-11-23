@@ -9,4 +9,6 @@ pub const c = @cImport({
     @cInclude("unistd.h");
     @cInclude("stdint.h");
     @cInclude("errno.h");
+    @cInclude("libgen.h");
+    @cInclude("sys/select.h");
 });
